@@ -1,37 +1,37 @@
-name: The Automated Forge  
-  
-on:  
-  push:  
-    branches:  
-      - main  
-  
-permissions:  
-  id-token: write  
-  contents: read  
-  
-jobs:  
-  forge_build:  
-    runs-on: ubuntu-latest  
-    steps:  
-      - name: Checkout Code  
-        uses: actions/checkout@v3  
-  
-      - name: Configure AWS OIDC  
-        uses: aws-actions/configure-aws-credentials@v3  
-        with:  
+name: The Automated Forge
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  forge_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: SAST Quality Gate (tfsec)
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          soft_fail: false
+
+      - name: Configure AWS OIDC
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
           role-to-assume: arn:aws:iam::226778502907:role/DevSecOps-Pipeline-Role
-          aws-region: us-east-1  
-  
-      - name: Setup Terraform  
-        uses: hashicorp/setup-terraform@v2  
-  
-      - name: Terraform Init  
-        run: terraform init  
-  
-      - name: SAST Quality Gate (tfsec)  
-        uses: aquasecurity/tfsec-action@v1.0.0  
-        with:  
-          soft_fail: false  
-  
-      - name: Terraform Apply  
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
         run: terraform apply -auto-approve
