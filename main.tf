@@ -19,12 +19,12 @@ provider "aws" {
 
 resource "aws_security_group" "sabotaged_sg" {
   name        = "tlab7-exposed-sg"
-  description = "A dangerously exposed security group"
+  description = "A secured security group"
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["1.2.3.4/32"] # SABOTAGE: SSH exposed to the world
+    cidr_blocks = ["10.0.0.1/32"] # FIXED: Restricted SSH access instead of 0.0.0.0/0
   }
 }
