@@ -1,3 +1,7 @@
+terraform {
+  # ADD YOUR S3 BACKEND HERE BEFORE THE PIPELINE RUNS!
+}
+
 provider "aws" {  
   region = "us-east-1"  
 }  
@@ -12,4 +16,4 @@ resource "aws_security_group" "sabotaged_sg" {
     protocol    = "tcp"  
     cidr_blocks = ["0.0.0.0/0"] # SABOTAGE: SSH exposed to the world  
   }  
-}  
+}
