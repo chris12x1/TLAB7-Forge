@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "tlab7-state-vault-glr3"
+    bucket = "tlab7-state-vault-cd"
     key    = "tlab7/terraform.tfstate"
     region = "us-east-1"
   }
